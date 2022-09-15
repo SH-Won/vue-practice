@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+// import Auth from '../hoc/Auth'
 import LandingView from '../views/LandingView';
-import LoginView from '../views/LoginView'
+
 
 Vue.use(VueRouter)
 
@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/',
     name: 'Landing',
-    component: LandingView
+    component: LandingView,
   },
   {
     path: '/todos',

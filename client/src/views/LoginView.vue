@@ -12,6 +12,8 @@
 
 <script>
 import StyledButton from '@/components/Button.vue';
+import { loginUser } from '@/services/user';
+import { loginBus } from '@/EventBus/EventBus';
 export default {
     name: 'loginView',
     data() {
@@ -29,11 +31,26 @@ export default {
         }
     },
     methods: {
-        login(e) {
+        login: async function (e) {
             e.preventDefault();
-            console.log(this.email);
-            console.log(this.password);
+            try {
+                const { email, password } = this.$data;
+                const params = {
+                    email,
+                    password,
+                }
+                const response = await loginUser(params);
+                const { loginSuccess, token, refreshToken } = response;
+                const storage = localStorage;
+                storage.setItem('token', token);
+                storage.setItem('refreshToken', refreshToken);
+                storage.setItem('loginSuccess', loginSuccess);
+                loginBus.$emit('login',loginSuccess);
+                this.$router.push('/');
+                
+            } catch (e) {
 
+            }
         },
         isValidForm() {
 
@@ -69,6 +86,8 @@ export default {
     width: 85%;
     font-size: 1rem;
     box-sizing: border-box;
+    border-radius: 6px;
+    border: .5px solid gray
 }
 
 .login__form>label {

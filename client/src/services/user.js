@@ -12,8 +12,8 @@ export const logOutUser = async () => {
         const response = await AxiosClient.get('/api/users/logout', {
             withCredentials: true,
             headers: {
-                authorization: getItem('token'),
-                refreshtoken: getItem('refreshToken'),
+                authorization: localStorage.getItem('token'),
+                refreshtoken: localStorage.getItem('refreshToken'),
             },
         });
         return response.data;
@@ -24,8 +24,8 @@ export const auth = async () => {
         const response = await AxiosClient.get('/api/users/auth', {
             withCredentials: true,
             headers: {
-                authorization: getItem('token'),
-                refreshtoken: getItem('refreshToken'),
+                authorization: localStorage.getItem('token'),
+                refreshtoken: localStorage.getItem('refreshToken'),
             },
         });
         return response.data;

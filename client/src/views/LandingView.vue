@@ -12,6 +12,16 @@ import ArticleList from '@/components/Article/ArticleList.vue'
 
 const LandingView = {
     name:'LandingView',
+    props : {
+        user : {
+            type:Object,
+            default(){
+                return{
+                isAuth:false,
+                }
+            }
+        }
+    },
     data() {
         return {
             articles: [],
