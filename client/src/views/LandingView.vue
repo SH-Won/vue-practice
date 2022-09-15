@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="landing-section">
         <ArticleList v-if="!loading" :articles="articles"/>
         <div v-else>로딩중입니다</div>
     </section>
@@ -37,5 +37,8 @@ export default LandingView;
 </script>
 
 <style>
+    .landing-section{
+        background-color:#f5f5f5;
+    }
 
 </style>

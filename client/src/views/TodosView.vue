@@ -7,8 +7,8 @@
 
 <script>
 
-import TodoList from "@/components/TodoList.vue";
-import TodoInput from "@/components/TodoInput.vue";
+import TodoList from "@/components/Todos/TodoList.vue";
+import TodoInput from "@/components/Todos/TodoInput.vue";
 
 
 const TodoApp = {
