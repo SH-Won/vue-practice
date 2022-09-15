@@ -9,7 +9,7 @@
 
 import TodoList from "@/components/TodoList.vue";
 import TodoInput from "@/components/TodoInput.vue";
-import Vue from "vue";
+
 
 const TodoApp = {
     data() {

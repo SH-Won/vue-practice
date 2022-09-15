@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LandingView from '../views/LandingView';
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: LandingView
   },
   {
     path: '/about',
@@ -22,6 +23,11 @@ const routes = [
     path: '/todos',
     name : 'todos',
     component : () => import('../views/TodosView.vue'),
+  },
+  {
+    path:'/article/:id',
+    name:'detailArticle',
+    component : () => import('../views/DetailArticleView.vue')
   }
 ]
 
