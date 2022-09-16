@@ -4,9 +4,9 @@
             <h1>{{article.title}}</h1>
             <time>{{calcTime()}}</time>
         </div>
-        <StyledButton :onClick="handleClick" name="좋아요" :styles="buttonStyle" />
-        <StyledButton name="수정" />
-        <StyledButton name="삭제" />
+        <StyledButton  :onClick="handleClick" name="좋아요" :styles="buttonStyle" />
+        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle"/>
+        <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle"/>
         <div class="ql-content" v-html="article.data">
         </div>
     </section>
@@ -39,19 +39,28 @@ const DetailArticleView = {
             }
         }
     },
+    computed : {
+       
+    },
     methods: {
         calcTime() {
+            console.log('calc')
             const createdAt = this.article.createdAt;
             const date = new Date(createdAt).toLocaleString('ko-KR').split('. ');
             return `${date[0]}년 ${date[1]}월 ${date[2]}일 ${date[3]}`;
         },
+        isUserArticle(){
+         console.log('article',this.article)
+         return this.article.writer._id === this.user._id;
+       },
         handleClick() {
             console.log(this.article);
         }
     },
-    mounted: async function () {
+    async created(){
         const article = await getDetailArticle(this.articleId);
         this.article = article[0];
+
     },
     components: {
         StyledButton
