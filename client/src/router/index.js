@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Auth from '../hoc/Auth'
+import Auth from '../hoc/Auth'
 import LandingView from '../views/LandingView';
 
 
@@ -20,7 +20,10 @@ const routes = [
   {
     path:'/article/:id',
     name:'detailArticle',
-    component : () => import('../views/DetailArticleView.vue')
+    component : () => import('../hoc/Auth').then( async ({default : Auth}) => {
+        const Page = await import('../views/DetailArticleView').then(({default : Page}) => Page);
+        return Auth(Page,false);
+    })
   },
   {
     path:'/login',

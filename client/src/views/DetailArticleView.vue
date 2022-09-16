@@ -29,6 +29,16 @@ const DetailArticleView = {
             },
         }
     },
+    props : {
+        user : {
+            type : Object,
+            default() {
+                return {
+                    isAuth : false,
+                }
+            }
+        }
+    },
     methods: {
         calcTime() {
             const createdAt = this.article.createdAt;
