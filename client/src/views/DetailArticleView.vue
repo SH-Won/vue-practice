@@ -2,11 +2,11 @@
     <section class="detail-article">
         <div class="detail-article__info">
             <h1>{{article.title}}</h1>
-            <time>{{calcTime()}}</time>
+            <time>{{calcTime}}</time>
         </div>
-        <StyledButton  :onClick="handleClick" name="좋아요" :styles="buttonStyle" />
-        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle"/>
-        <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle"/>
+        <StyledButton name="좋아요" :styles="buttonStyle" />
+        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle" />
+        <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle" />
         <div class="ql-content" v-html="article.data">
         </div>
     </section>
@@ -24,42 +24,41 @@ const DetailArticleView = {
         return {
             articleId: this.$route.params.id,
             article: {},
+            isUserArticle: false,
             buttonStyle: {
                 'alignSelf': 'flex-end',
             },
         }
     },
-    props : {
-        user : {
-            type : Object,
+    props: {
+        user: {
+            type: Object,
             default() {
                 return {
-                    isAuth : false,
+                    isAuth: false,
                 }
             }
         }
     },
-    computed : {
-       
-    },
-    methods: {
+
+    computed: {
         calcTime() {
-            console.log('calc')
             const createdAt = this.article.createdAt;
             const date = new Date(createdAt).toLocaleString('ko-KR').split('. ');
             return `${date[0]}년 ${date[1]}월 ${date[2]}일 ${date[3]}`;
         },
-        isUserArticle(){
-         console.log('article',this.article)
-         return this.article.writer._id === this.user._id;
-       },
-        handleClick() {
-            console.log(this.article);
-        }
+        //     isUserArticle(){
+        //      console.log('article',this.article);
+        //      console.log('user',this.user)
+        //      return this.article.writer._id === this.user._id;
+        //    },
+
     },
-    async created(){
+
+    async created() {
         const article = await getDetailArticle(this.articleId);
         this.article = article[0];
+        this.isUserArticle = this.article.writer._id === this.user._id;
 
     },
     components: {
