@@ -23,7 +23,8 @@ const formats = [
 
 export const options = {
   modules,
-  formats,
+  placeholder: "내용을 입력해 주세요",
+  theme: "snow",
 };
 const BlockEmbed = Quill.import("blots/block/embed");
 export class ImageBlot extends BlockEmbed {
@@ -65,8 +66,7 @@ export const uploadMulter = (quill) => {
     for (let i = 0; i < files.length; i++) {
       formData.append("file", files[i]);
     }
-    console.log(formData);
-    console.log(files);
+
     const response = await uploadImageMulter(formData);
 
     if (response.success) {

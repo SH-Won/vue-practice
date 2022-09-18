@@ -5,7 +5,7 @@
             <time>{{calcTime}}</time>
         </div>
         <StyledButton name="좋아요" :styles="buttonStyle" />
-        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle" />
+        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle" :onClick="editArticle" />
         <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle" />
         <div class="ql-content" v-html="article.data">
         </div>
@@ -40,6 +40,9 @@ const DetailArticleView = {
             }
         }
     },
+    components: {
+        StyledButton
+    },
 
     computed: {
         calcTime() {
@@ -54,6 +57,19 @@ const DetailArticleView = {
         //    },
 
     },
+    methods: {
+        editArticle() {
+            const params = {
+                isModify: true,
+                article: this.article,
+            };
+            this.$router.push({
+                name: "edit",
+                params,
+            })
+        },
+
+    },
 
     async created() {
         const article = await getDetailArticle(this.articleId);
@@ -61,9 +77,8 @@ const DetailArticleView = {
         this.isUserArticle = this.article.writer._id === this.user._id;
 
     },
-    components: {
-        StyledButton
-    }
+
+
 
 }
 export default DetailArticleView;

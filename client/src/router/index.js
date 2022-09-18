@@ -1,50 +1,55 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Auth from '../hoc/Auth'
-import LandingView from '../views/LandingView';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Auth from "../hoc/Auth";
+import LandingView from "../views/LandingView";
 
-
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Landing',
+    path: "/",
+    name: "Landing",
     component: LandingView,
   },
   {
-    path: '/todos',
-    name : 'todos',
-    component : () => import('../views/TodosView.vue'),
+    path: "/todos",
+    name: "todos",
+    component: () => import("../views/TodosView.vue"),
   },
   {
-    path:'/article/:id',
-    name:'detailArticle',
-    component : () => import('../hoc/Auth').then( async ({default : Auth}) => {
-        const Page = await import('../views/DetailArticleView').then(({default : Page}) => Page);
-        return Auth(Page,false);
-    })
+    path: "/article/:id",
+    name: "detailArticle",
+    component: () =>
+      import("../hoc/Auth").then(async ({ default: Auth }) => {
+        const Page = await import("../views/DetailArticleView").then(
+          ({ default: Page }) => Page
+        );
+        return Auth(Page, false);
+      }),
   },
   {
-    path:'/login',
-    name:'login',
-    component : () => import('../views/LoginView.vue')
+    path: "/login",
+    name: "login",
+    component: () => import("../views/LoginView.vue"),
   },
   {
-    path:'/edit',
-    name:'edit',
-    component : () => import('../hoc/Auth').then( async ({default : Auth}) => {
-      const Page = await import('../views/EditView').then(({default : Page}) => Page);
-      return Auth(Page,true);
-  })
-  }
-  
-]
+    path: "/edit",
+    name: "edit",
+    component: () =>
+      import("../hoc/Auth").then(async ({ default: Auth }) => {
+        const Page = await import("../views/EditView").then(
+          ({ default: Page }) => Page
+        );
+        return Auth(Page, true);
+      }),
+    props: true,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

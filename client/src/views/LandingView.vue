@@ -29,8 +29,8 @@ const LandingView = {
 
         }
     },
-    methods:{
-        getUser(){
+    methods: {
+        getUser() {
             console.log(this.user);
         }
 
