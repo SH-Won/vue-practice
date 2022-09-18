@@ -29,7 +29,16 @@ const routes = [
     path:'/login',
     name:'login',
     component : () => import('../views/LoginView.vue')
+  },
+  {
+    path:'/edit',
+    name:'edit',
+    component : () => import('../hoc/Auth').then( async ({default : Auth}) => {
+      const Page = await import('../views/EditView').then(({default : Page}) => Page);
+      return Auth(Page,true);
+  })
   }
+  
 ]
 
 const router = new VueRouter({
