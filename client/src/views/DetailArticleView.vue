@@ -5,8 +5,8 @@
             <time>{{calcTime}}</time>
         </div>
         <StyledButton name="좋아요" :styles="buttonStyle" />
-        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle" :onClick="editArticle" />
-        <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle" />
+        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle" :onClick="handleEditArticle" />
+        <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle" :onClick="handleDeleteArticle" />
         <div class="ql-content" v-html="article.data">
         </div>
     </section>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { getDetailArticle } from '@/services/article';
+import { deleteArticle, getDetailArticle } from '@/services/article';
 import StyledButton from '@/components/Button.vue';
 
 const DetailArticleView = {
@@ -50,15 +50,12 @@ const DetailArticleView = {
             const date = new Date(createdAt).toLocaleString('ko-KR').split('. ');
             return `${date[0]}년 ${date[1]}월 ${date[2]}일 ${date[3]}`;
         },
-        //     isUserArticle(){
-        //      console.log('article',this.article);
-        //      console.log('user',this.user)
-        //      return this.article.writer._id === this.user._id;
-        //    },
+        getArticleContent() {
 
+        }
     },
     methods: {
-        editArticle() {
+        handleEditArticle() {
             const params = {
                 isModify: true,
                 article: this.article,
@@ -68,6 +65,20 @@ const DetailArticleView = {
                 params,
             })
         },
+        async handleDeleteArticle() {
+            const confirm = window.confirm('정말 삭제 하시겠어요?');
+            if (!confirm) return;
+            const params = {
+                _id: this.article._id,
+                imageIds: this.article.imageIds,
+            }
+            const response = await deleteArticle(params);
+            if (response.success) {
+                alert('성공적으로 삭제 했습니다');
+                this.$router.push('/');
+            }
+
+        }
 
     },
 

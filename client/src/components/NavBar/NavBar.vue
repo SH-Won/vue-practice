@@ -1,10 +1,8 @@
 <template>
     <nav class="nav">
-
         <span class="nav__logo">
             <router-link to="/">{{navTitle}}</router-link>
         </span>
-
         <template v-if="!isLogin">
             <div class="nav__toggle">
                 <UserSvg :width="20" :height="20" />
@@ -19,24 +17,11 @@
             <div class="nav__toggle">
                 <UserSvg :width="20" :height="20" />
                 <div class="nav__toggle-list">
+                    <StyledButton name="글쓰기" :onClick="() => this.$router.push('/edit')" />
                     <StyledButton name="로그아웃" :onClick="handleLogOut" />
-
                 </div>
             </div>
-
         </template>
-
-        <!-- <template v-if="!isLogin">
-            <div>
-                <StyledButton name="로그인" :onClick="() => routeChange('/login')" />
-                <StyledButton name="회원가입" :onClick="() => routeChange('/register')" />
-            </div>
-        </template>
-        <template v-else>
-            <div>
-                <StyledButton name="로그아웃" />
-            </div>
-        </template> -->
     </nav>
 
 </template>
@@ -62,11 +47,9 @@ export default {
     },
     methods: {
         routeChange(path) {
-            console.log('navbar to landing')
             this.$router.push(path);
         },
         handleToggle() {
-            console.log('toggle')
             this.isOpen = !this.isOpen;
         },
         async handleLogOut() {
@@ -88,7 +71,6 @@ export default {
     components: {
         StyledButton,
         UserSvg,
-        UserSvg
     },
     created() {
         loginBus.$on('login', payload => {
@@ -106,9 +88,10 @@ export default {
 <style>
 .nav {
     display: flex;
-    padding: .5rem 1rem;
+    padding: 1rem 1rem;
     justify-content: space-between;
     align-items: center;
+
 
 }
 
@@ -127,14 +110,17 @@ export default {
     position: relative;
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 
 .nav__toggle-list {
     position: absolute;
-    top: 45px;
+    top: 30px;
     right: 0;
     width: 100px;
-    max-height: 0;
+    /* max-height: 0; */
+    /* height:100%; */
+    max-height: 200px;
     background-color: #fff;
     outline: none;
     border-radius: 8px;
@@ -142,15 +128,19 @@ export default {
     flex-direction: column;
     z-index: 10;
     overflow: hidden;
-    transition: max-height .5s;
+    transform: scale(0);
+    /* transition: max-height .5s; */
+    transition: transform .5s;
 }
 
 .nav__toggle:hover>.nav__toggle-list {
     max-height: 100px;
+    transform: scale(1);
 }
 
 .nav__toggle-list:hover {
-    max-height: 100px;
+    /* max-height: 100px; */
+    transform: scale(1);
 }
 
 .nav__toggle-list.act {

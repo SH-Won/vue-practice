@@ -44,6 +44,11 @@ const routes = [
       }),
     props: true,
   },
+  {
+    path:"/loading",
+    name:'loading',
+    component : () => import('../components/Loading/Loading')
+  }
 ];
 
 const router = new VueRouter({

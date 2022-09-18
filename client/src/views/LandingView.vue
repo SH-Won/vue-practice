@@ -1,13 +1,14 @@
 <template>
     <section class="landing-section">
         <ArticleList v-if="!loading" :articles="articles" />
-        <div v-else>로딩중입니다</div>
+        <PageLoading v-else />
     </section>
 </template>
 
 <script>
 import { getArticles } from "@/services/article";
 import ArticleList from '@/components/Article/ArticleList.vue'
+import PageLoading from "@/components/Loading/PageLoading.vue";
 
 const LandingView = {
     name: 'LandingView',
@@ -30,8 +31,8 @@ const LandingView = {
         }
     },
     methods: {
-        getUser() {
-            console.log(this.user);
+        goEditPage() {
+            this.$router.push('/edit');
         }
 
     },
@@ -44,6 +45,7 @@ const LandingView = {
     },
     components: {
         ArticleList,
+        PageLoading
     }
 
 
@@ -53,6 +55,7 @@ export default LandingView;
 
 <style>
 .landing-section {
+
     background-color: #f5f5f5;
 }
 </style>

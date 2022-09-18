@@ -1,11 +1,17 @@
 <template>
     <div class="edit-container">
-        <TitleCategoryForm :title="title" :category="category" :languages="languages"
-            :handleChangeTitle=" (e)=> handleChangeTitle(e)" :handleSelectLanguage="(e) => handleSelectLanguage(e)" />
+        <TitleCategoryForm>
+            <input v-model="title" />
+            <select v-model="category">
+                <option value="0">선택</option>
+                <option v-for="language in languages" :key="language._id" :value="language._id">{{language.name}}
+                </option>
+            </select>
+        </TitleCategoryForm>
         <QuillEditor ref="quill" :content="article.data" />
-        <button @click="checkRef"> ref 확인 </button>
+
         <div class="user-buttons">
-            <StyledButton name="확인" :onClick="handleUpload" />
+            <StyledButton :name="isModify ? '수정' : '확인'" :onClick="handleUpload" />
             <StyledButton name="취소" :onClick="handleCancle" />
 
         </div>
@@ -47,20 +53,20 @@ export default {
     components: {
         TitleCategoryForm,
         QuillEditor,
-        StyledButton
-
+        StyledButton,
     },
     methods: {
-        checkRef() {
-            const content = this.$refs.quill.$refs.myQuillEditor.quill.root.innerHTML;
-            console.log(this.article);
-        },
-        handleChangeTitle(e) {
-            this.title = e.target.value;
-        },
-        handleSelectLanguage(e) {
-            this.category = parseInt(e.target.value);
-        },
+        // checkRef() {
+        //     const content = this.$refs.quill.$refs.myQuillEditor.quill.root.innerHTML;
+        //     console.log(this.article);
+        //     console.log(this.title,this.category);
+        // },
+        // handleChangeTitle(e) {
+        //     this.title = e.target.value;
+        // },
+        // handleSelectLanguage(e) {
+        //     this.category = parseInt(e.target.value);
+        // },
 
         async handleUpload() {
             const quill = this.$refs.quill.$refs.myQuillEditor.quill;
@@ -70,8 +76,6 @@ export default {
                 alert('성공적으로 업로드 했습니다');
                 this.$router.push('/')
             }
-
-
         },
         handleCancle() {
             const confirm = window.confirm('작성한 글이 사라집니다. 취소하시겠어요?');
