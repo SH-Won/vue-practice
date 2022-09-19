@@ -1,5 +1,6 @@
 <template>
     <div class="edit-container">
+        <PageLoading v-if="isLoading" explain="업로드 중이예요!"/>
         <TitleCategoryForm>
             <input v-model="title" />
             <select v-model="category">
@@ -23,6 +24,7 @@ import { languages, upload } from '@/components/Edit/useQuillUpload';
 import TitleCategoryForm from '@/components/Edit/TitleCategoryForm.vue';
 import QuillEditor from '@/components/Edit/QuillEditor.vue';
 import StyledButton from '@/components/Button.vue';
+import PageLoading from '@/components/Loading/PageLoading.vue'
 
 
 
@@ -48,19 +50,17 @@ export default {
             title: '',
             category: 0,
             languages,
+            isLoading : false,
         }
     },
     components: {
-        TitleCategoryForm,
-        QuillEditor,
-        StyledButton,
-    },
+    TitleCategoryForm,
+    QuillEditor,
+    StyledButton,
+    PageLoading,
+},
     methods: {
-        // checkRef() {
-        //     const content = this.$refs.quill.$refs.myQuillEditor.quill.root.innerHTML;
-        //     console.log(this.article);
-        //     console.log(this.title,this.category);
-        // },
+        
         // handleChangeTitle(e) {
         //     this.title = e.target.value;
         // },
@@ -71,8 +71,11 @@ export default {
         async handleUpload() {
             const quill = this.$refs.quill.$refs.myQuillEditor.quill;
             const { title, category, user, isModify, article } = this;
+            
+            this.isLoading = true;
             const response = await upload(quill, isModify, title, category, user._id, article);
             if (response.success) {
+                this.isLoading = false;
                 alert('성공적으로 업로드 했습니다');
                 this.$router.push('/')
             }

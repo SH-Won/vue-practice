@@ -1,5 +1,6 @@
 <template>
     <div class="main-content space-top wrapper">
+        <div>{{explain}}</div>
         <div class="loader loader-6"></div>
     </div>
 
@@ -7,6 +8,12 @@
 
 <script>
 export default {
+    props : {
+        explain : {
+            type:String,
+            default : '',
+        }
+    }
 
 }
 </script>
@@ -16,6 +23,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    
     height: 92vh;
     min-width: 290px;
     max-width: 800px;

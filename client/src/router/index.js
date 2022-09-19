@@ -9,7 +9,7 @@ const routes = [
   {
     path: "/",
     name: "Landing",
-    component: LandingView,
+    component: Auth(LandingView,false),
   },
   {
     path: "/todos",
