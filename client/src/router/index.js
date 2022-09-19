@@ -9,7 +9,7 @@ const routes = [
   {
     path: "/",
     name: "Landing",
-    component: Auth(LandingView,false),
+    component: Auth(LandingView, false),
   },
   {
     path: "/todos",
@@ -45,10 +45,15 @@ const routes = [
     props: true,
   },
   {
-    path:"/loading",
-    name:'loading',
-    component : () => import('../components/Loading/Loading')
-  }
+    path: "/loading",
+    name: "loading",
+    component: () => import("../components/Loading/Loading"),
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: () => import("../views/TestView"),
+  },
 ];
 
 const router = new VueRouter({

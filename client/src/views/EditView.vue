@@ -1,6 +1,6 @@
 <template>
     <div class="edit-container">
-        <PageLoading v-if="isLoading" explain="업로드 중이예요!"/>
+        <PageLoading v-if="isLoading" explain="업로드 중이예요!" />
         <TitleCategoryForm>
             <input v-model="title" />
             <select v-model="category">
@@ -50,17 +50,17 @@ export default {
             title: '',
             category: 0,
             languages,
-            isLoading : false,
+            isLoading: false,
         }
     },
     components: {
-    TitleCategoryForm,
-    QuillEditor,
-    StyledButton,
-    PageLoading,
-},
+        TitleCategoryForm,
+        QuillEditor,
+        StyledButton,
+        PageLoading,
+    },
     methods: {
-        
+
         // handleChangeTitle(e) {
         //     this.title = e.target.value;
         // },
@@ -71,7 +71,7 @@ export default {
         async handleUpload() {
             const quill = this.$refs.quill.$refs.myQuillEditor.quill;
             const { title, category, user, isModify, article } = this;
-            
+
             this.isLoading = true;
             const response = await upload(quill, isModify, title, category, user._id, article);
             if (response.success) {
@@ -88,6 +88,10 @@ export default {
         }
 
     },
+    mounted() {
+        console.log('re-render');
+    },
+
     created() {
         const { article, isModify } = this.$route.params;
         if (article) {

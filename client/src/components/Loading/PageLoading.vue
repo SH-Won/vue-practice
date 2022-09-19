@@ -8,10 +8,10 @@
 
 <script>
 export default {
-    props : {
-        explain : {
-            type:String,
-            default : '',
+    props: {
+        explain: {
+            type: String,
+            default: '',
         }
     }
 
@@ -24,7 +24,7 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
+    background-color: #f5f5f5;
     height: 92vh;
     min-width: 290px;
     max-width: 800px;

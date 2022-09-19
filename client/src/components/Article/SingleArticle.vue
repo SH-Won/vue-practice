@@ -1,12 +1,12 @@
 <template>
     <article class="article" @click="goDetailArticleView(article._id)">
-            <figure class="article__img-container">
-                <img :src="article.thumbnail" class="article__img" />
-            </figure>
+        <figure class="article__img-container">
+            <img :src="article.thumbnail" class="article__img" />
+        </figure>
 
-            <div class="article__info">
-                <h2>{{article.title}}</h2>
-            </div>
+        <div class="article__info">
+            <h2>{{article.title}}</h2>
+        </div>
 
 
     </article>
@@ -19,8 +19,8 @@ export default {
     props: {
         article: Object,
     },
-    methods:{
-        goDetailArticleView(articleId){
+    methods: {
+        goDetailArticleView(articleId) {
             this.$router.push(`/article/${articleId}`);
         }
     }
@@ -70,12 +70,14 @@ a {
     top: 0;
     left: 0;
 }
-.article__info{
-    display:flex;
+
+.article__info {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
-.article__info > h2 {
+
+.article__info>h2 {
     width: 200px;
     text-align: center;
     overflow: hidden;

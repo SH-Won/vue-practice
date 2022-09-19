@@ -1,6 +1,7 @@
 <template>
     <div class="article-container">
-        <SingleArticle v-for="article in articles" :key="article.id" :article="article" />
+        <SingleArticle v-for="(article,index) in articles" :key="article.id" :article="article"
+            :ref="articles.length - 1 === index && 'lastArticleElement'" />
     </div>
 </template>
 
@@ -8,13 +9,14 @@
 import SingleArticle from '@/components/Article/SingleArticle.vue'
 
 export default {
-    name:'ArticleList',
+    name: 'ArticleList',
     props: {
         articles: {
             type: Array,
             default: [],
         },
-        articleSize: Number
+        articleSize: Number,
+
     },
     components: {
         SingleArticle,
