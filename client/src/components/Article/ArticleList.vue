@@ -1,7 +1,7 @@
 <template>
     <div class="article-container">
         <SingleArticle v-for="(article,index) in articles" :key="article.id" :article="article"
-            :ref="articles.length - 1 === index && 'lastArticleElement'" />
+            :ref="articles.length - 1 === index && lastRef" />
     </div>
 </template>
 
@@ -16,11 +16,15 @@ export default {
             default: [],
         },
         articleSize: Number,
+        lastRef: Function,
 
     },
     components: {
         SingleArticle,
 
+    },
+    mounted() {
+        console.log(this.lastRef)
     }
 
 

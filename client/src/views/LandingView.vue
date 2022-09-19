@@ -1,7 +1,9 @@
 <template>
     <section class="landing-section">
         <Observer v-if="!pageLoading" :hasMore="hasMore" :loading="loading" @intersecting="loadArticles">
-            <ArticleList :articles="articles" />
+
+            <ArticleList slot-scope="ob" :articles="articles" :lastRef="ob.lastRef" />
+
             <PageLoading v-if="loading" />
         </Observer>
         <PageLoading v-else />
