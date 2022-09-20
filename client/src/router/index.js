@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Auth from "../hoc/Auth";
 import LandingView from "../views/LandingView";
+import LandingTabView from '../views/LandingTabView';
 
 Vue.use(VueRouter);
 
@@ -9,7 +10,17 @@ const routes = [
   {
     path: "/",
     name: "Landing",
-    component: Auth(LandingView, false),
+    component: Auth(LandingTabView, false),
+    children : [
+      {
+        path:'',
+        component : () => LandingView
+      },
+      {
+        path:'recent',
+        component : () => LandingView
+      }
+    ]
   },
   {
     path: "/todos",

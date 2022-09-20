@@ -29,10 +29,11 @@ const LandingView = {
                     isAuth: false,
                 }
             }
-        }
+        },
     },
     data() {
         return {
+            path:this.$route.path,
             articles: [],
             hasMore: true,
             pageLoading: false,
@@ -49,10 +50,10 @@ const LandingView = {
 
         async loadArticles() {
             this.loading = true;
-            console.log('loadArticles');
             const params = {
                 skip: this.skip,
                 limit: this.limit,
+                category : this.path ==='/' ? 'popular' : '',
             }
             const response = await getArticles(params);
             this.articles = [...this.articles, ...response.posts];
@@ -64,7 +65,15 @@ const LandingView = {
 
 
     },
-    created: async function () {
+    watch : {
+        '$route.path' (to,from){
+            console.log(to,from);
+            this.path = to;
+        }
+
+    },
+    mounted: async function () {
+        console.log(this.path);
         this.pageLoading = true;
         await this.loadArticles();
         this.pageLoading = false;

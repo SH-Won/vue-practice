@@ -34,10 +34,10 @@ export default {
         }
     },
     updated() {
-        console.log(this.loading, this.hasMore);
+        // console.log(this.loading, this.hasMore);
     },
     mounted() {
-        console.log(this.loading, this.hasMore);
+        // console.log(this.loading, this.hasMore);
     }
     // updated() {
     //     if (!this.hasMore || this.loading) return;
