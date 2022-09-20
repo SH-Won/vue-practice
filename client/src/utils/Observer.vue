@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <slot :lastRef="lastRef"></slot>
+    <div class="ob">
+        <slot name="observerList" :lastRef="lastRef"></slot>
+        <slot v-if="loading" name="loadingComponent"></slot>
     </div>
 </template>
 
@@ -25,15 +26,19 @@ export default {
             }
         },
         lastRef(el) {
-            console.log(el);
             if (!el || this.loading) return;
             if (el && this.hasMore) {
-
-                this.observer = new IntersectionObserver(this.handleScroll, { threshold: 0.8 });
+                this.observer = new IntersectionObserver(this.handleScroll, { threshold: 0.5 });
                 this.observer.observe(el.$el);
             }
         }
     },
+    updated() {
+        console.log(this.loading, this.hasMore);
+    },
+    mounted() {
+        console.log(this.loading, this.hasMore);
+    }
     // updated() {
     //     if (!this.hasMore || this.loading) return;
     //     this.$nextTick(() => {

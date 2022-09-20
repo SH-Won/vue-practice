@@ -23,10 +23,6 @@ export default {
         SingleArticle,
 
     },
-    mounted() {
-        console.log(this.lastRef)
-    }
-
 
 }
 </script>

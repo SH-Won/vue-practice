@@ -1,6 +1,7 @@
 <template>
     <div class="edit-container">
-        <PageLoading v-if="isLoading" explain="업로드 중이예요!" />
+        <PageLoading v-show="isLoading" explain="업로드 중이예요!"
+            :styles="{position : 'absolute', height:'100%', opacity:0.7, zIndex : 100}" />
         <TitleCategoryForm>
             <input v-model="title" />
             <select v-model="category">
@@ -17,6 +18,7 @@
 
         </div>
     </div>
+
 </template>
 
 <script>
@@ -107,6 +109,7 @@ export default {
 
 <style>
 .edit-container {
+    position: relative;
     width: 95%;
     display: flex;
     flex-direction: column;

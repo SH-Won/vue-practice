@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content space-top wrapper">
+    <div class="main-content space-top wrapper" :style="styles">
         <div>{{explain}}</div>
         <div class="loader loader-6"></div>
     </div>
@@ -12,9 +12,9 @@ export default {
         explain: {
             type: String,
             default: '',
-        }
+        },
+        styles: Object,
     }
-
 }
 </script>
 
@@ -26,8 +26,10 @@ export default {
     flex-direction: column;
     background-color: #f5f5f5;
     height: 92vh;
-    min-width: 290px;
-    max-width: 800px;
+    width: 100%;
+    box-sizing: border-box;
+    /* min-width: 290px;
+    max-width: 800px; */
     padding-left: 1em;
     padding-right: 1em;
     margin-left: auto;

@@ -1,10 +1,12 @@
 <template>
     <section class="landing-section">
         <Observer v-if="!pageLoading" :hasMore="hasMore" :loading="loading" @intersecting="loadArticles">
-
-            <ArticleList slot-scope="ob" :articles="articles" :lastRef="ob.lastRef" />
-
-            <PageLoading v-if="loading" />
+            <template v-slot:observerList="ob">
+                <ArticleList :articles="articles" :lastRef="ob.lastRef" />
+            </template>
+            <template v-slot:loadingComponent>
+                <PageLoading />
+            </template>
         </Observer>
         <PageLoading v-else />
     </section>
@@ -33,8 +35,8 @@ const LandingView = {
         return {
             articles: [],
             hasMore: true,
-            pageLoading: true,
-            loading: true,
+            pageLoading: false,
+            loading: false,
             skip: 0,
             limit: 4,
 
@@ -47,6 +49,7 @@ const LandingView = {
 
         async loadArticles() {
             this.loading = true;
+            console.log('loadArticles');
             const params = {
                 skip: this.skip,
                 limit: this.limit,
@@ -54,14 +57,15 @@ const LandingView = {
             const response = await getArticles(params);
             this.articles = [...this.articles, ...response.posts];
             this.hasMore = response.postSize >= this.limit;
-            this.loading = false;
             this.skip = this.skip + this.limit;
+            this.loading = false;
 
         }
 
 
     },
-    mounted: async function () {
+    created: async function () {
+        this.pageLoading = true;
         await this.loadArticles();
         this.pageLoading = false;
     },
