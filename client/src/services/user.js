@@ -30,4 +30,14 @@ export const auth = async () => {
         });
         return response.data;
     } catch (e) {}
-};
+};;
+
+export const updateFavorite = async (params) => {
+    console.log(params);
+    try{
+        const response  = await AxiosClient.post('/api/users/favorite',params);
+        return response.data;
+    }catch(e){
+        
+    }
+}

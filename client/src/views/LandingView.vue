@@ -43,16 +43,17 @@ const LandingView = {
 
         }
     },
+
     methods: {
-        reset(path){
+        reset(path) {
             this.path = path,
-            this.articles = [];
-            this.hasMore =true,
-            this.pageLoading =false;
+                this.articles = [];
+            this.hasMore = true,
+                this.pageLoading = false;
             this.loading = false;
             this.skip = 0;
             this.limit = 4;
-
+            this.loadArticles();
         },
         goEditPage() {
             this.$router.push('/edit');
@@ -72,19 +73,17 @@ const LandingView = {
             this.loading = false;
 
         }
-
-
     },
-    
-    watch : {
-        '$route.path'(to,from){
-            if(to !==from ){
-                  this.reset(to);
-                  this.loadArticles();
+
+    watch: {
+        '$route.path'(to, from) {
+            if (to !== from) {
+                this.reset(to);
+                this.loadArticles();
             }
         }
     },
-    
+
     created: async function () {
         console.log('created');
         this.path = this.$route.path;
