@@ -33,7 +33,7 @@ const LandingView = {
     },
     data() {
         return {
-            path:this.$route.path,
+            path: null,
             articles: [],
             hasMore: true,
             pageLoading: false,
@@ -44,6 +44,16 @@ const LandingView = {
         }
     },
     methods: {
+        reset(path){
+            this.path = path,
+            this.articles = [];
+            this.hasMore =true,
+            this.pageLoading =false;
+            this.loading = false;
+            this.skip = 0;
+            this.limit = 4;
+
+        },
         goEditPage() {
             this.$router.push('/edit');
         },
@@ -53,7 +63,7 @@ const LandingView = {
             const params = {
                 skip: this.skip,
                 limit: this.limit,
-                category : this.path ==='/' ? 'popular' : '',
+                category: this.path === '/' ? 'popular' : '',
             }
             const response = await getArticles(params);
             this.articles = [...this.articles, ...response.posts];
@@ -65,15 +75,19 @@ const LandingView = {
 
 
     },
+    
     watch : {
-        '$route.path' (to,from){
-            console.log(to,from);
-            this.path = to;
+        '$route.path'(to,from){
+            if(to !==from ){
+                  this.reset(to);
+                  this.loadArticles();
+            }
         }
-
     },
-    mounted: async function () {
-        console.log(this.path);
+    
+    created: async function () {
+        console.log('created');
+        this.path = this.$route.path;
         this.pageLoading = true;
         await this.loadArticles();
         this.pageLoading = false;

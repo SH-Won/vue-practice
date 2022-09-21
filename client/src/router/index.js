@@ -6,6 +6,14 @@ import LandingTabView from '../views/LandingTabView';
 
 Vue.use(VueRouter);
 
+// const Landing = {
+//    LandingView,
+//   watch : {
+//     '$route.path'(to,from){
+//       this.path = to;
+//     }
+//   }
+// }
 const routes = [
   {
     path: "/",
@@ -14,11 +22,13 @@ const routes = [
     children : [
       {
         path:'',
-        component : () => LandingView
+        name:'landing popular',
+        component : LandingView
       },
       {
         path:'recent',
-        component : () => LandingView
+        name : 'landing recent',
+        component : LandingView
       }
     ]
   },
