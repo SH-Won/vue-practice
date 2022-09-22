@@ -5,7 +5,7 @@
                 <img v-for="(post) in posts" :key="post._id" :ref="ob.lastRef" :data-src="post.imageUrls[0]" />
             </template>
         </Observer> -->
-        <img v-lazyload v-for="(post) in posts" :key="post._id"  :data-url="post.imageUrls[0]" />
+        <img v-lazyload v-for="(post) in posts" :key="post._id" :data-url="post.imageUrls[0]" />
     </div>
 </template>
 

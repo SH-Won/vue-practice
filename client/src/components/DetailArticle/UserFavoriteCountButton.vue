@@ -75,22 +75,26 @@ export default {
     margin: 1rem;
     padding: .7rem .5rem;
     align-self: flex-end;
-    background-color: #d8cbcb;
+    background-color: #fff;
     border-radius: 1rem;
     color: #797777;
-    border: transparent;
+    border: .5px solid #797777;
     transition: background .5s;
     cursor: pointer;
 
 }
 
-.detail-article__favoriteBtn:hover {
+/* .detail-article__favoriteBtn:hover {
     transform: scale(1.1);
+} */
+.detail-article__favoriteBtn:active {
+    transform: scale(0.8);
 }
 
 .detail-article__favoriteBtn.act {
-    background-color: #8fe9a3;
-    color: #173815;
+    background-color: #2c8cda;
+    border: transparent;
+    color: #fff;
 
 }
 </style>

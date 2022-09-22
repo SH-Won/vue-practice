@@ -5,7 +5,7 @@
             <li class="tab__item" @click="handleChangeTab('/recent')">최신</li>
             <div class="tab__underline" ref="underline" :style="handleTransitionUnderLine(currentPath)"></div>
         </ul>
-        <router-view :user="user" ></router-view>
+        <router-view :user="user"></router-view>
     </div>
 </template>
 
@@ -48,6 +48,9 @@ export default {
             this.$router.push(path);
         }
 
+    },
+    created() {
+        console.log(this.$store);
     }
 
 }

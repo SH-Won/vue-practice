@@ -13,10 +13,12 @@
 </template>
 
 <script>
-import { getArticles } from "@/services/article";
+// import { getArticles } from "@/services/article";
 import ArticleList from '@/components/Article/ArticleList.vue'
 import PageLoading from "@/components/Loading/PageLoading.vue";
 import Observer from "@/utils/Observer.vue";
+import { mapActions, mapState } from "vuex";
+
 
 
 const LandingView = {
@@ -34,61 +36,113 @@ const LandingView = {
     data() {
         return {
             path: null,
-            articles: [],
-            hasMore: true,
+            // articles: [],
+            // hasMore: true,
             pageLoading: false,
-            loading: false,
+            // loading: false,
             skip: 0,
             limit: 4,
-
         }
+    },
+    computed: {
+        ...mapState('articles', {
+            articles: state => state.articles,
+            loading: state => state.loading,
+            hasMore: state => state.hasMore,
+            // articlesAlias : 'articles',
+            // loadingAlias : 'loading',
+            // hasMoreAlias : 'hasMore',
+
+        })
+        // ...mapState('articles',['articles','loading','hasMore'])
+
     },
 
     methods: {
-        reset(path) {
-            this.path = path,
-                this.articles = [];
-            this.hasMore = true,
-                this.pageLoading = false;
-            this.loading = false;
-            this.skip = 0;
-            this.limit = 4;
-            this.loadArticles();
-        },
+        // reset(path) {
+        //     this.path = path,
+        //         this.articles = [];
+        //     this.hasMore = true,
+        //         this.pageLoading = false;
+        //     this.loading = false;
+        //     this.skip = 0;
+        //     this.limit = 4;
+        //     this.loadArticles();
+        // },
+        // reset(path) {
+        //     this.path = path,
+        //     this.hasMore = true,
+        //     this.pageLoading = false;
+        //     this.loading = false;
+        //     this.skip = 0;
+        //     this.limit = 4;
+
+        //     this.getArticles()
+        // },
         goEditPage() {
             this.$router.push('/edit');
         },
 
+        ...mapActions('articles', [
+            'getArticles',
+            'moveTab',
+        ]),
         async loadArticles() {
-            this.loading = true;
             const params = {
                 skip: this.skip,
                 limit: this.limit,
                 category: this.path === '/' ? 'popular' : '',
             }
-            const response = await getArticles(params);
-            this.articles = [...this.articles, ...response.posts];
-            this.hasMore = response.postSize >= this.limit;
+            this.getArticles(params);
             this.skip = this.skip + this.limit;
-            this.loading = false;
-
         }
+
+
+        // async loadArticles() {
+        //     this.loading = true;
+        //     const params = {
+        //         skip: this.skip,
+        //         limit: this.limit,
+        //         category: this.path === '/' ? 'popular' : '',
+        //     }
+        //     const response = await getArticles(params);
+        //     this.articles = [...this.articles, ...response.posts];
+        //     this.hasMore = response.postSize >= this.limit;
+        //     this.skip = this.skip + this.limit;
+        //     this.loading = false;
+
+        // }
     },
 
     watch: {
         '$route.path'(to, from) {
             if (to !== from) {
-                this.reset(to);
-                this.loadArticles();
+                console.log('route change')
+                // this.reset();
+                // this.loadArticles();
+                // this.getArticles();
+                this.path = to;
+                this.skip = 0;
+                // console.log(this.skip, this.path);
+                const params = {
+                    skip: this.skip,
+                    limit: this.limit,
+                    category: this.path === '/' ? 'popular' : '',
+                }
+                this.moveTab(params);
             }
+
+
+
         }
     },
 
-    created: async function () {
+
+    async created() {
         console.log('created');
         this.path = this.$route.path;
         this.pageLoading = true;
-        await this.loadArticles();
+        this.loadArticles();
         this.pageLoading = false;
     },
     components: {
