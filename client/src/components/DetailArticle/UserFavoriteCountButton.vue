@@ -7,8 +7,18 @@ import { updateFavorite } from '../../services/user';
 export default {
 
     props: {
-        initialCount: Number,
-        article: Object,
+        initialCount: {
+            type: Number,
+            default: 0,
+        },
+        article: {
+            type: Object,
+            default() {
+                return {
+
+                }
+            }
+        },
         user: {
             type: Object,
             default() {
@@ -22,7 +32,7 @@ export default {
     data() {
         return {
             count: this.initialCount,
-            isClicked: this.user.favorite.includes(this.article._id),
+            isClicked: this.user.isAuth ? this.user.favorite.includes(this.article._id) : false,
         }
     },
     computed: {
@@ -34,7 +44,6 @@ export default {
             }
         },
         getClassName() {
-            console.log('class')
             return this.isClicked ? 'detail-article__favoriteBtn act' : 'detail-article__favoriteBtn'
         }
 

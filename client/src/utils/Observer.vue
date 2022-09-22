@@ -14,22 +14,29 @@ export default {
     },
     props: {
         eventName: String,
-        hasMore: Boolean,
-        loading: Boolean
+        hasMore: {
+            type: Boolean,
+            default: true,
+        },
+        loading: {
+            type: Boolean,
+            default: false,
+        }
     },
     methods: {
         handleScroll(entries, ob) {
             if (entries[0].isIntersecting) {
                 console.log(entries[0].target);
-                this.$emit('intersecting');
+                this.$emit('intersecting', entries[0].target);
                 ob.unobserve(entries[0].target);
             }
         },
         lastRef(el) {
             if (!el || this.loading) return;
             if (el && this.hasMore) {
+                console.log(el.$el || el);
                 this.observer = new IntersectionObserver(this.handleScroll, { threshold: 0.5 });
-                this.observer.observe(el.$el);
+                this.observer.observe(el.$el || el);
             }
         }
     },

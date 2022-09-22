@@ -1,14 +1,19 @@
 <template>
     <section class="detail-article">
-        <div class="detail-article__info">
-            <h1>{{article.title}}</h1>
-            <time>{{calcTime}}</time>
-        </div>
-        <UserFavoriteCountButton v-if="article._id" :initialCount="article.favoriteCount" :user="user" :article="article"/>
-        <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle" :onClick="handleEditArticle" />
-        <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle" :onClick="handleDeleteArticle" />
-        <div class="ql-content" v-html="article.data">
-        </div>
+        <template v-if="!pageLoading">
+            <div class="detail-article__info">
+                <h1>{{article.title}}</h1>
+                <time>{{calcTime}}</time>
+            </div>
+            <UserFavoriteCountButton :initialCount="article.favoriteCount" :user="user" :article="article" />
+            <StyledButton v-if="isUserArticle" name="수정" :styles="buttonStyle" :onClick="handleEditArticle" />
+            <StyledButton v-if="isUserArticle" name="삭제" :styles="buttonStyle" :onClick="handleDeleteArticle" />
+            <div class="ql-content" v-html="article.data">
+            </div>
+        </template>
+        <template v-else>
+            <PageLoading />
+        </template>
     </section>
 
 
@@ -18,16 +23,19 @@
 import { deleteArticle, getDetailArticle } from '@/services/article';
 import StyledButton from '@/components/Button.vue';
 import UserFavoriteCountButton from '@/components/DetailArticle/UserFavoriteCountButton.vue';
+import PageLoading from '@/components/Loading/PageLoading.vue';
+import { loginBus } from '@/EventBus/EventBus';
 
 const DetailArticleView = {
     name: 'DetailArticleView',
     data() {
         return {
+            pageLoading: false,
             articleId: this.$route.params.id,
             article: {},
             isUserArticle: false,
-            buttonStyle : {
-                'alignSelf' : 'flex-end',
+            buttonStyle: {
+                'alignSelf': 'flex-end',
             }
         }
     },
@@ -44,9 +52,11 @@ const DetailArticleView = {
     components: {
         StyledButton,
         UserFavoriteCountButton,
+        PageLoading
     },
 
     computed: {
+
         calcTime() {
             const createdAt = this.article.createdAt;
             const date = new Date(createdAt).toLocaleString('ko-KR').split('. ');
@@ -81,10 +91,19 @@ const DetailArticleView = {
 
     },
 
-    async mounted() {
+    async created() {
+        loginBus.$on('login', isLogin => {
+            if (!isLogin) {
+                console.log(isLogin);
+            }
+        })
+        console.log('reCreated')
+        this.pageLoading = true;
         const article = await getDetailArticle(this.articleId);
         this.article = article[0];
+        console.log(this.article);
         this.isUserArticle = this.article.writer._id === this.user._id;
+        this.pageLoading = false;
 
     },
 
