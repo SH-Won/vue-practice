@@ -1,7 +1,7 @@
 <template>
     <article class="article" @click="goDetailArticleView(article._id)">
         <figure class="article__img-container">
-            <img :src="article.thumbnail" class="article__img" />
+            <img v-lazyload :data-url="article.thumbnail" class="article__img" />
         </figure>
 
         <div class="article__info">

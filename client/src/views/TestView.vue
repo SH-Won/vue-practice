@@ -1,10 +1,11 @@
 <template>
     <div v-if="!loading">
-        <Observer @intersecting="lazyImgLoad" :loading="loading" :hasMore="hasMore">
+        <!-- <Observer @intersecting="lazyImgLoad" :loading="loading" :hasMore="hasMore">
             <template v-slot:observerList="ob">
                 <img v-for="(post) in posts" :key="post._id" :ref="ob.lastRef" :data-src="post.imageUrls[0]" />
             </template>
-        </Observer>
+        </Observer> -->
+        <img v-lazyload v-for="(post) in posts" :key="post._id"  :data-url="post.imageUrls[0]" />
     </div>
 </template>
 
@@ -41,7 +42,7 @@ export default {
         // }
         async getPosts() {
             this.loading = true;
-
+            const response = await axios.get('http://localhost:5000/api/posts');
             this.posts = response.data.posts;
             // this.hasMore = false;
             this.loading = false;
