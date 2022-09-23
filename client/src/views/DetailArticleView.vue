@@ -24,45 +24,28 @@ import { deleteArticle, getDetailArticle } from '@/services/article';
 import StyledButton from '@/components/Button.vue';
 import UserFavoriteCountButton from '@/components/DetailArticle/UserFavoriteCountButton.vue';
 import PageLoading from '@/components/Loading/PageLoading.vue';
-import { loginBus } from '@/EventBus/EventBus';
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 
 const DetailArticleView = {
     name: 'DetailArticleView',
-    data() {
-        return {
-            pageLoading: false,
-            articleId: this.$route.params.id,
-            // article: {},
-            isUserArticle: false,
-            buttonStyle: {
-                'alignSelf': 'flex-end',
-            }
-        }
-    },
-    // props: {
-    //     user: {
-    //         type: Object,
-    //         default() {
-    //             return {
-    //                 isAuth: false,
-    //             }
-    //         }
-    //     }
-    // },
     components: {
         StyledButton,
         UserFavoriteCountButton,
         PageLoading
     },
 
-    computed: {
+    data() {
+        return {
+            pageLoading: false,
+            articleId: this.$route.params.id,
+            // article: {},
+            buttonStyle: {
+                'alignSelf': 'flex-end',
+            }
+        }
+    },
 
-        // calcTime() {
-        //     const createdAt = this.article.createdAt;
-        //     const date = new Date(createdAt).toLocaleString('ko-KR').split('. ');
-        //     return `${date[0]}년 ${date[1]}월 ${date[2]}일 ${date[3]}`;
-        // },
+    computed: {
         ...mapState('articles', {
             article: state => state.article,
         }),
@@ -72,15 +55,13 @@ const DetailArticleView = {
     },
     methods: {
         ...mapMutations('editArticle', ['setEditInfo']),
+        ...mapActions('articles', ['getDetailArticle']),
+
         handleEditArticle() {
-            console.log(this.article);
             this.setEditInfo(true);
             this.$router.push('/edit');
-            // this.$router.push({
-            //     name: "edit",
-            //     params,
-            // })
         },
+
         async handleDeleteArticle() {
             const confirm = window.confirm('정말 삭제 하시겠어요?');
             if (!confirm) return;
@@ -95,24 +76,15 @@ const DetailArticleView = {
             }
 
         },
-        ...mapActions('articles', ['getDetailArticle'])
+
 
 
     },
 
     async created() {
-        loginBus.$on('login', isLogin => {
-            if (!isLogin) {
-                console.log(isLogin);
-            }
-        })
-
 
         this.pageLoading = true;
         await this.getDetailArticle(this.articleId);
-
-        // console.log(this.article);
-        // this.isUserArticle = this.article.writer._id === this.user._id;
         this.pageLoading = false;
 
     },
@@ -121,7 +93,7 @@ const DetailArticleView = {
 export default DetailArticleView;
 </script>
 
-<style>
+<style scoped>
 @import '../styles/highlight.css';
 
 .detail-article {

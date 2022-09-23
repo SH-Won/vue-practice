@@ -23,22 +23,13 @@ import { mapActions, mapMutations, mapState } from "vuex";
 
 const LandingView = {
     name: 'LandingView',
-    // props: {
-    //     user: {
-    //         type: Object,
-    //         default() {
-    //             return {
-    //                 isAuth: false,
-    //             }
-    //         }
-    //     },
-    // },
+
     data() {
         return {
             path: null,
             pageLoading: false,
             skip: 0,
-            limit: 4,
+            limit: 10,
         }
     },
     computed: {
@@ -66,7 +57,7 @@ const LandingView = {
                 limit: this.limit,
                 category: this.path === '/' ? 'popular' : '',
             }
-            this.getArticles(params);
+            await this.getArticles(params);
             this.skip = this.skip + this.limit;
         }
 
@@ -96,7 +87,7 @@ const LandingView = {
         this.path = this.$route.path;
         this.pageLoading = true;
         this.reset();
-        this.loadArticles();
+        await this.loadArticles();
         this.pageLoading = false;
     },
     components: {

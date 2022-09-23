@@ -33,35 +33,25 @@ import { mapGetters, mapMutations, mapState } from 'vuex';
 
 export default {
     name: 'editView',
-
-    // props: {
-    //     user: {
-    //         type: Object,
-    //         default() {
-    //             return {
-    //                 isAuth: false,
-    //             }
-    //         }
-    //     }
-    // },
-    data() {
-        return {
-            article: {
-                imageIds: [],
-            },
-            // isModify: false,
-            title: '',
-            category: 0,
-            languages,
-            isLoading: false,
-        }
-    },
     components: {
         TitleCategoryForm,
         QuillEditor,
         StyledButton,
         PageLoading,
     },
+
+    data() {
+        return {
+            article: {
+                imageIds: [],
+            },
+            title: '',
+            category: 0,
+            languages,
+            isLoading: false,
+        }
+    },
+    
     computed: {
         ...mapState('user', {
             user: state => state.user,
@@ -71,7 +61,6 @@ export default {
         })
     },
     methods: {
-        // ...mapGetters('user',['getUserState']),
         ...mapGetters('editArticle', ['getEditInfo']),
         ...mapMutations('editArticle', ['resetEditState']),
 
@@ -98,11 +87,9 @@ export default {
 
 
     created() {
-        // const { article, isModify } = this.$route.params;
         const { article, isModify } = this.getEditInfo();
-        console.log(this.user);
         if (isModify) {
-            this.article = article;
+            this.article = {...article};
             this.title = article.title,
                 this.category = article.category;
             // this.isModify = isModify;

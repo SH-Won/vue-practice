@@ -1,4 +1,5 @@
 import * as userAPI from "@/services/user";
+import * as ArticleAPI from "@/services/article";
 const state = () => ({
   isLogin: localStorage.getItem("loginSuccess"),
   user: {
@@ -70,6 +71,16 @@ const actions = {
       commit("setIsLogin", false);
     } catch (e) {}
   },
+
+  // async deleteArticle({commit,state}) {
+  //   try{
+  //     const params = {
+  //       _id:
+  //       imageIds: this.article.imageIds,
+  //     }
+  //     const response = await ArticleAPI.deleteArticle(params);
+  //   }
+  // }
 };
 
 export default {

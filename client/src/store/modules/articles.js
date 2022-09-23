@@ -22,6 +22,9 @@ const mutations = {
   setPath(state, path) {
     this.path = path;
   },
+  setLoading(state, result) {
+    state.loading = result;
+  },
   setArticle(state, article) {
     state.article = article;
   },
@@ -42,14 +45,14 @@ const actions = {
     await dispatch("getArticles", params);
   },
   getArticles: async ({ commit, state }, params) => {
-    state.loading = true;
+    commit("setLoading", true);
     const response = await articleAPI.getArticles(params);
     const payload = {
       articles: response.posts,
       hasMore: response.postSize >= params.limit,
     };
+    commit("setLoading", false);
     commit("setArticles", payload);
-    state.loading = false;
   },
   getDetailArticle: async ({ commit, state }, articleId) => {
     try {
