@@ -97,6 +97,7 @@ const DetailArticleView = {
                 console.log(isLogin);
             }
         })
+        console.log(this.$store);
         console.log('reCreated')
         this.pageLoading = true;
         const article = await getDetailArticle(this.articleId);

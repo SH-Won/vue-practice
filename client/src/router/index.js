@@ -6,14 +6,6 @@ import LandingTabView from '../views/LandingTabView';
 
 Vue.use(VueRouter);
 
-// const Landing = {
-//    LandingView,
-//   watch : {
-//     '$route.path'(to,from){
-//       this.path = to;
-//     }
-//   }
-// }
 const routes = [
   {
     path: "/",
@@ -73,7 +65,12 @@ const routes = [
   {
     path: "/test",
     name: "test",
-    component: () => import("../views/TestView"),
+    component: () =>  import("../hoc/TestAuth").then(async ({ default: Auth }) => {
+      const Page = await import("../views/TestView").then(
+        ({ default: Page }) => Page
+      );
+      return Auth(Page, true);
+    }),
   },
 ];
 

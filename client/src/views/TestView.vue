@@ -13,6 +13,7 @@
 // import useScroll from '../utils/useInfiniteScroll';
 import Observer from '@/utils/Observer.vue';
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
     data() {
@@ -51,16 +52,19 @@ export default {
             const { src } = target.dataset;
             target.src = src;
 
-        }
+        },
+        ...mapGetters('user',['getUserState']),
     },
     async created() {
         this.getPosts();
+        const user = this.getUserState();
+        console.log(user);
     },
     components: { Observer }
 }
 </script>
 
-<style>
+<style scoped>
 div {
     height: 300px;
 }

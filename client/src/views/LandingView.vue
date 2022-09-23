@@ -13,7 +13,7 @@
 </template>
 
 <script>
-// import { getArticles } from "@/services/article";
+
 import ArticleList from '@/components/Article/ArticleList.vue'
 import PageLoading from "@/components/Loading/PageLoading.vue";
 import Observer from "@/utils/Observer.vue";
@@ -36,10 +36,7 @@ const LandingView = {
     data() {
         return {
             path: null,
-            // articles: [],
-            // hasMore: true,
             pageLoading: false,
-            // loading: false,
             skip: 0,
             limit: 4,
         }
@@ -49,36 +46,11 @@ const LandingView = {
             articles: state => state.articles,
             loading: state => state.loading,
             hasMore: state => state.hasMore,
-            // articlesAlias : 'articles',
-            // loadingAlias : 'loading',
-            // hasMoreAlias : 'hasMore',
-
         })
-        // ...mapState('articles',['articles','loading','hasMore'])
-
     },
 
     methods: {
-        // reset(path) {
-        //     this.path = path,
-        //         this.articles = [];
-        //     this.hasMore = true,
-        //         this.pageLoading = false;
-        //     this.loading = false;
-        //     this.skip = 0;
-        //     this.limit = 4;
-        //     this.loadArticles();
-        // },
-        // reset(path) {
-        //     this.path = path,
-        //     this.hasMore = true,
-        //     this.pageLoading = false;
-        //     this.loading = false;
-        //     this.skip = 0;
-        //     this.limit = 4;
-
-        //     this.getArticles()
-        // },
+ 
         goEditPage() {
             this.$router.push('/edit');
         },
@@ -88,6 +60,7 @@ const LandingView = {
             'moveTab',
         ]),
         async loadArticles() {
+            
             const params = {
                 skip: this.skip,
                 limit: this.limit,
@@ -97,38 +70,20 @@ const LandingView = {
             this.skip = this.skip + this.limit;
         }
 
-
-        // async loadArticles() {
-        //     this.loading = true;
-        //     const params = {
-        //         skip: this.skip,
-        //         limit: this.limit,
-        //         category: this.path === '/' ? 'popular' : '',
-        //     }
-        //     const response = await getArticles(params);
-        //     this.articles = [...this.articles, ...response.posts];
-        //     this.hasMore = response.postSize >= this.limit;
-        //     this.skip = this.skip + this.limit;
-        //     this.loading = false;
-
-        // }
     },
 
     watch: {
         '$route.path'(to, from) {
             if (to !== from) {
                 console.log('route change')
-                // this.reset();
-                // this.loadArticles();
-                // this.getArticles();
                 this.path = to;
-                this.skip = 0;
-                // console.log(this.skip, this.path);
+                
                 const params = {
-                    skip: this.skip,
+                    skip: 0,
                     limit: this.limit,
                     category: this.path === '/' ? 'popular' : '',
                 }
+                this.skip = this.limit;
                 this.moveTab(params);
             }
 
@@ -137,9 +92,8 @@ const LandingView = {
         }
     },
 
-
     async created() {
-        console.log('created');
+
         this.path = this.$route.path;
         this.pageLoading = true;
         this.loadArticles();

@@ -30,11 +30,9 @@ const mutations = {
 const actions = {
   async moveTab({ commit, state, dispatch }, params) {
     commit("reset");
-
     await dispatch("getArticles", params);
   },
   getArticles: async ({ commit, state }, params) => {
-    console.log("articles get");
     state.loading = true;
     const response = await articleAPI.getArticles(params);
     const payload = {
