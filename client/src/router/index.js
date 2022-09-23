@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Auth from "../hoc/Auth";
 import LandingView from "../views/LandingView";
-import LandingTabView from '../views/LandingTabView';
+import LandingTabView from "../views/LandingTabView";
+import TestAuth from "../hoc/TestAuth";
 
 Vue.use(VueRouter);
 
@@ -10,19 +11,19 @@ const routes = [
   {
     path: "/",
     name: "Landing",
-    component: Auth(LandingTabView, false),
-    children : [
+    component: TestAuth(LandingTabView, false),
+    children: [
       {
-        path:'',
-        name:'landing popular',
-        component : LandingView
+        path: "",
+        name: "landing popular",
+        component: LandingView,
       },
       {
-        path:'recent',
-        name : 'landing recent',
-        component : LandingView
-      }
-    ]
+        path: "recent",
+        name: "landing recent",
+        component: LandingView,
+      },
+    ],
   },
   {
     path: "/todos",
@@ -33,7 +34,7 @@ const routes = [
     path: "/article/:id",
     name: "detailArticle",
     component: () =>
-      import("../hoc/Auth").then(async ({ default: Auth }) => {
+      import("../hoc/TestAuth").then(async ({ default: Auth }) => {
         const Page = await import("../views/DetailArticleView").then(
           ({ default: Page }) => Page
         );
@@ -49,7 +50,7 @@ const routes = [
     path: "/edit",
     name: "edit",
     component: () =>
-      import("../hoc/Auth").then(async ({ default: Auth }) => {
+      import("../hoc/TestAuth").then(async ({ default: Auth }) => {
         const Page = await import("../views/EditView").then(
           ({ default: Page }) => Page
         );
@@ -65,12 +66,13 @@ const routes = [
   {
     path: "/test",
     name: "test",
-    component: () =>  import("../hoc/TestAuth").then(async ({ default: Auth }) => {
-      const Page = await import("../views/TestView").then(
-        ({ default: Page }) => Page
-      );
-      return Auth(Page, true);
-    }),
+    component: () =>
+      import("../hoc/TestAuth").then(async ({ default: Auth }) => {
+        const Page = await import("../views/TestView").then(
+          ({ default: Page }) => Page
+        );
+        return Auth(Page, true);
+      }),
   },
 ];
 

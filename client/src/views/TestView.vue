@@ -53,7 +53,7 @@ export default {
             target.src = src;
 
         },
-        ...mapGetters('user',['getUserState']),
+        ...mapGetters('user', ['getUserState']),
     },
     async created() {
         this.getPosts();

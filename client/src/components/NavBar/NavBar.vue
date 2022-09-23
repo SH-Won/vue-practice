@@ -18,7 +18,7 @@
                 <UserSvg :width="20" :height="20" />
                 <div class="nav__toggle-list">
                     <StyledButton name="글쓰기" :onClick="() => this.$router.push('/edit')" />
-                    <StyledButton name="로그아웃" :onClick="handleLogOut" />
+                    <StyledButton name="로그아웃" :onClick="logoutUser" />
                 </div>
             </div>
         </template>
@@ -28,22 +28,26 @@
 
 <script>
 import StyledButton from '@/components/Button.vue'
-import { loginBus } from '@/EventBus/EventBus';
-import { logOutUser } from '@/services/user';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import UserSvg from './UserSvg.vue';
 
 export default {
     name: 'NavBar',
     data() {
-        const loginSuccess = localStorage.getItem('loginSuccess');
+
         return {
             navTitle: 'sh Blog',
             navItems: [
 
             ],
-            isLogin: loginSuccess,
             isOpen: false,
         }
+    },
+    computed: {
+        ...mapState('user', {
+            isLogin: state => state.isLogin,
+        })
+
     },
     methods: {
         routeChange(path) {
@@ -52,33 +56,14 @@ export default {
         handleToggle() {
             this.isOpen = !this.isOpen;
         },
-        async handleLogOut() {
-            try {
-                const response = await logOutUser();
-                if (response.success) {
-                    alert('안전하게 로그아웃 했습니다');
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('refreshToken');
-                    localStorage.removeItem('loginSuccess');
-                    loginBus.$emit('login', false);
-                }
 
-            } catch (e) {
-
-            }
-        }
+        ...mapGetters('user', ['getUserState']),
+        ...mapActions('user', ['logoutUser']),
     },
     components: {
         StyledButton,
         UserSvg,
     },
-    created() {
-        loginBus.$on('login', payload => {
-            this.isLogin = payload;
-        })
-
-    },
-
 }
 </script>
 

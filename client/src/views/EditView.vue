@@ -27,28 +27,29 @@ import TitleCategoryForm from '@/components/Edit/TitleCategoryForm.vue';
 import QuillEditor from '@/components/Edit/QuillEditor.vue';
 import StyledButton from '@/components/Button.vue';
 import PageLoading from '@/components/Loading/PageLoading.vue'
+import { mapGetters, mapMutations, mapState } from 'vuex';
 
 
 
 export default {
     name: 'editView',
 
-    props: {
-        user: {
-            type: Object,
-            default() {
-                return {
-                    isAuth: false,
-                }
-            }
-        }
-    },
+    // props: {
+    //     user: {
+    //         type: Object,
+    //         default() {
+    //             return {
+    //                 isAuth: false,
+    //             }
+    //         }
+    //     }
+    // },
     data() {
         return {
             article: {
                 imageIds: [],
             },
-            isModify: false,
+            // isModify: false,
             title: '',
             category: 0,
             languages,
@@ -61,14 +62,18 @@ export default {
         StyledButton,
         PageLoading,
     },
+    computed: {
+        ...mapState('user', {
+            user: state => state.user,
+        }),
+        ...mapState('editArticle', {
+            isModify: state => state.isModify,
+        })
+    },
     methods: {
-
-        // handleChangeTitle(e) {
-        //     this.title = e.target.value;
-        // },
-        // handleSelectLanguage(e) {
-        //     this.category = parseInt(e.target.value);
-        // },
+        // ...mapGetters('user',['getUserState']),
+        ...mapGetters('editArticle', ['getEditInfo']),
+        ...mapMutations('editArticle', ['resetEditState']),
 
         async handleUpload() {
             const quill = this.$refs.quill.$refs.myQuillEditor.quill;
@@ -90,19 +95,23 @@ export default {
         }
 
     },
-    mounted() {
-        console.log('re-render');
-    },
+
 
     created() {
-        const { article, isModify } = this.$route.params;
-        if (article) {
+        // const { article, isModify } = this.$route.params;
+        const { article, isModify } = this.getEditInfo();
+        console.log(this.user);
+        if (isModify) {
             this.article = article;
             this.title = article.title,
                 this.category = article.category;
-            this.isModify = isModify;
+            // this.isModify = isModify;
         }
+    },
+    destroyed() {
+        this.resetEditState();
     }
+
 
 }
 </script>

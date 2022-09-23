@@ -12,8 +12,7 @@
 
 <script>
 import StyledButton from '@/components/Button.vue';
-import { loginUser } from '@/services/user';
-import { loginBus } from '@/EventBus/EventBus';
+import { mapActions } from 'vuex';
 export default {
     name: 'loginView',
     data() {
@@ -31,6 +30,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions('user', ['loginUser']),
         login: async function (e) {
             e.preventDefault();
             try {
@@ -39,15 +39,9 @@ export default {
                     email,
                     password,
                 }
-                const response = await loginUser(params);
-                const { loginSuccess, token, refreshToken } = response;
-                const storage = localStorage;
-                storage.setItem('token', token);
-                storage.setItem('refreshToken', refreshToken);
-                storage.setItem('loginSuccess', loginSuccess);
-                loginBus.$emit('login',loginSuccess);
+                await this.loginUser(params);
                 this.$router.push('/');
-                
+
             } catch (e) {
 
             }

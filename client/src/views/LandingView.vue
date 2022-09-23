@@ -17,22 +17,22 @@
 import ArticleList from '@/components/Article/ArticleList.vue'
 import PageLoading from "@/components/Loading/PageLoading.vue";
 import Observer from "@/utils/Observer.vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 
 
 const LandingView = {
     name: 'LandingView',
-    props: {
-        user: {
-            type: Object,
-            default() {
-                return {
-                    isAuth: false,
-                }
-            }
-        },
-    },
+    // props: {
+    //     user: {
+    //         type: Object,
+    //         default() {
+    //             return {
+    //                 isAuth: false,
+    //             }
+    //         }
+    //     },
+    // },
     data() {
         return {
             path: null,
@@ -50,17 +50,17 @@ const LandingView = {
     },
 
     methods: {
- 
+
         goEditPage() {
             this.$router.push('/edit');
         },
-
+        ...mapMutations('articles', ['reset']),
         ...mapActions('articles', [
             'getArticles',
             'moveTab',
         ]),
         async loadArticles() {
-            
+
             const params = {
                 skip: this.skip,
                 limit: this.limit,
@@ -77,7 +77,7 @@ const LandingView = {
             if (to !== from) {
                 console.log('route change')
                 this.path = to;
-                
+
                 const params = {
                     skip: 0,
                     limit: this.limit,
@@ -93,9 +93,9 @@ const LandingView = {
     },
 
     async created() {
-
         this.path = this.$route.path;
         this.pageLoading = true;
+        this.reset();
         this.loadArticles();
         this.pageLoading = false;
     },

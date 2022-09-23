@@ -10,11 +10,20 @@ const state = () => ({
 
 //getters
 
-const getters = {};
+const getters = {
+  calcTime(state) {
+    const createdAt = state.article.createdAt;
+    const date = new Date(createdAt).toLocaleString("ko-KR").split(". ");
+    return `${date[0]}년 ${date[1]}월 ${date[2]}일 ${date[3]}`;
+  },
+};
 // mutations
 const mutations = {
   setPath(state, path) {
     this.path = path;
+  },
+  setArticle(state, article) {
+    state.article = article;
   },
   setArticles(state, payload) {
     const { articles, hasMore } = payload;
@@ -41,6 +50,12 @@ const actions = {
     };
     commit("setArticles", payload);
     state.loading = false;
+  },
+  getDetailArticle: async ({ commit, state }, articleId) => {
+    try {
+      const article = await articleAPI.getDetailArticle(articleId);
+      commit("setArticle", article[0]);
+    } catch (e) {}
   },
 };
 

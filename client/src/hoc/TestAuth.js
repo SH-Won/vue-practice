@@ -1,23 +1,22 @@
-
 import Vue from "vue";
-import PageLoading from '@/components/Loading/PageLoading';
+import PageLoading from "@/components/Loading/PageLoading";
 import { mapActions, mapGetters } from "vuex";
 export default function Auth(Component, isNeedLogin) {
   return Vue.component("withAuth", {
     data() {
       return {
-        isLoading : true,
+        isLoading: true,
       };
     },
-    
-    methods : {
-        ...mapActions('user',['auth']),
-        ...mapGetters('user',['getUserState']),
+
+    methods: {
+      ...mapActions("user", ["auth"]),
+      ...mapGetters("user", ["getUserState"]),
     },
 
     async created() {
       try {
-        this.isLoading  = true;
+        this.isLoading = true;
         await this.auth();
         const user = this.getUserState();
 
@@ -25,16 +24,14 @@ export default function Auth(Component, isNeedLogin) {
           if (isNeedLogin) {
             this.$router.push("/login");
           } else {
-
           }
         } else {
-          
         }
         this.isLoading = false;
       } catch (e) {}
     },
     render(createElement) {
-      const {isLoading}  = this;
+      const { isLoading } = this;
       return !isLoading ? createElement(Component) : createElement(PageLoading);
     },
   });
