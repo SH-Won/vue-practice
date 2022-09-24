@@ -3,7 +3,7 @@
         <span class="nav__logo">
             <router-link to="/">{{navTitle}}</router-link>
         </span>
-        <template v-if="!isLogin">
+        <template v-if="!isAuth">
             <div class="nav__toggle">
                 <UserSvg :width="20" :height="20" />
                 <div class="nav__toggle-list">
@@ -45,7 +45,7 @@ export default {
     },
     computed: {
         ...mapState('user', {
-            isLogin: state => state.isLogin,
+            isAuth: state => state.user.isAuth,
         })
 
     },
@@ -56,10 +56,9 @@ export default {
         handleToggle() {
             this.isOpen = !this.isOpen;
         },
-
-        ...mapGetters('user', ['getUserState']),
         ...mapActions('user', ['logoutUser']),
     },
+
     components: {
         StyledButton,
         UserSvg,

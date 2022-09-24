@@ -1,5 +1,5 @@
 import * as userAPI from "@/services/user";
-import * as ArticleAPI from "@/services/article";
+
 const state = () => ({
   isLogin: localStorage.getItem("loginSuccess"),
   user: {
@@ -7,7 +7,6 @@ const state = () => ({
   },
   prevRoutePath: null,
   currentViewArticle: {},
-  isModify: false,
   token: localStorage.getItem("token"),
   refreshToken: localStorage.getItem("refreshToken"),
 });
@@ -59,7 +58,6 @@ const actions = {
     try {
       const response = await userAPI.loginUser(params);
       const { loginSuccess, token, refreshToken } = response;
-      // console.log(user,'loginUser');
       commit("setToken", { token, refreshToken });
       commit("setIsLogin", loginSuccess);
     } catch (e) {}
@@ -69,18 +67,9 @@ const actions = {
       const response = await userAPI.logOutUser();
       commit("setToken", { token: "", refreshToken: "" });
       commit("setIsLogin", false);
+      commit("setUser", {});
     } catch (e) {}
   },
-
-  // async deleteArticle({commit,state}) {
-  //   try{
-  //     const params = {
-  //       _id:
-  //       imageIds: this.article.imageIds,
-  //     }
-  //     const response = await ArticleAPI.deleteArticle(params);
-  //   }
-  // }
 };
 
 export default {

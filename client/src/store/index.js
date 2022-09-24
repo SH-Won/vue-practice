@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Articles from "./modules/articles";
 import User from "./modules/user";
-import EditArticle from "./modules/editArticles";
+import EditArticle from "./modules/editArticle";
 
 Vue.use(Vuex);
 

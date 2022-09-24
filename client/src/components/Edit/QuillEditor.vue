@@ -25,12 +25,7 @@ export default {
             options,
         }
     },
-    computed: {
-
-    },
-
     mounted() {
-        console.log(this.$refs.myQuillEditor.quill);
         const quill = this.$refs.myQuillEditor.quill;
 
         if (this.content) {

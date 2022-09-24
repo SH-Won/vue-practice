@@ -29,7 +29,7 @@ const LandingView = {
             path: null,
             pageLoading: false,
             skip: 0,
-            limit: 10,
+            limit: 4,
         }
     },
     computed: {
@@ -42,14 +42,14 @@ const LandingView = {
 
     methods: {
 
-        goEditPage() {
-            this.$router.push('/edit');
-        },
         ...mapMutations('articles', ['reset']),
         ...mapActions('articles', [
             'getArticles',
             'moveTab',
         ]),
+        goEditPage() {
+            this.$router.push('/edit');
+        },
         async loadArticles() {
 
             const params = {

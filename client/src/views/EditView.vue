@@ -51,7 +51,7 @@ export default {
             isLoading: false,
         }
     },
-    
+
     computed: {
         ...mapState('user', {
             user: state => state.user,
@@ -89,10 +89,9 @@ export default {
     created() {
         const { article, isModify } = this.getEditInfo();
         if (isModify) {
-            this.article = {...article};
+            this.article = { ...article };
             this.title = article.title,
                 this.category = article.category;
-            // this.isModify = isModify;
         }
     },
     destroyed() {

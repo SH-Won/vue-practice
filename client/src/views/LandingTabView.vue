@@ -5,7 +5,7 @@
             <li class="tab__item" @click="handleChangeTab('/recent')">최신</li>
             <div class="tab__underline" ref="underline" :style="handleTransitionUnderLine(currentPath)"></div>
         </ul>
-        <router-view :user="user"></router-view>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -17,19 +17,7 @@ export default {
         }
 
     },
-    props: {
-        user: {
-            type: Object,
-            default() {
-                return {
-                    isAuth: false,
-                }
-            }
-        }
-    },
-    computed: {
 
-    },
     methods: {
         handleTransitionUnderLine(path) {
 
@@ -49,9 +37,6 @@ export default {
         }
 
     },
-    created() {
-        console.log(this.$store);
-    }
 
 }
 </script>
