@@ -12,7 +12,7 @@
 
 <script>
 import StyledButton from '@/components/Button.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
     name: 'loginView',
     data() {
@@ -29,6 +29,12 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapState('user', {
+            prevRoutePath: state => state.prevRoutePath,
+        })
+
+    },
     methods: {
         ...mapActions('user', ['loginUser']),
         login: async function (e) {
@@ -40,7 +46,8 @@ export default {
                     password,
                 }
                 await this.loginUser(params);
-                this.$router.push('/');
+                const nextRoutePath = this.prevRoutePath ? this.prevRoutePath : '/'
+                this.$router.push(nextRoutePath);
 
             } catch (e) {
 

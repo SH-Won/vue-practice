@@ -1,6 +1,6 @@
 import Vue from "vue";
 import PageLoading from "@/components/Loading/PageLoading";
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 export default function Auth(Component, isNeedLogin) {
   return Vue.component("withAuth", {
     data() {
@@ -9,15 +9,15 @@ export default function Auth(Component, isNeedLogin) {
       };
     },
     computed: {
-      ...mapState('user',{
-        user : state => state.user,
-      })
-
+      ...mapState("user", {
+        user: (state) => state.user,
+      }),
     },
 
     methods: {
       ...mapActions("user", ["auth"]),
-      ...mapGetters("user", ["getUserState"]),
+      ...mapMutations("user", ["setPrevRoutePath"]),
+      // ...mapGetters("user", ["getUserState"]),
     },
 
     async created() {
@@ -26,6 +26,7 @@ export default function Auth(Component, isNeedLogin) {
         await this.auth();
 
         if (!this.user.isAuth && isNeedLogin) {
+          this.setPrevRoutePath(this.$route.path);
           this.$router.push("/login");
         }
         this.isLoading = false;
