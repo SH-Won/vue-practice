@@ -13,6 +13,12 @@ export const getDetailArticle = async (articleId) => {
   );
   return response.data;
 };
+export const getUserFavoriteArticles = async (articleIds) => {
+  const response = await AxiosClient.post(`api/posts/selectedArticles`, {
+    articleIds,
+  });
+  return response.data;
+};
 export const uploadImageMulter = async (data) => {
   const response = await AxiosClient.post("/api/posts/uploadfiles", data, {
     withCredentials: true,

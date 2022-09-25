@@ -7,7 +7,7 @@
         <div class="article__info">
             <h2>{{article.title}}</h2>
         </div>
-
+        <slot></slot>
 
     </article>
 
@@ -23,7 +23,8 @@ export default {
         goDetailArticleView(articleId) {
             this.$router.push(`/article/${articleId}`);
         }
-    }
+    },
+
 }
 </script>
 

@@ -4,6 +4,7 @@ const state = () => ({
   articles: [],
   article: {},
   articleSize: 0,
+  userFavoriteArticles: [],
   hasMore: true,
   loading: true,
 });
@@ -33,6 +34,15 @@ const mutations = {
     state.articles = [...state.articles, ...articles];
     state.hasMore = hasMore;
   },
+  setUserFavoriteArticles(state, payload) {
+    const { articles, hasMore } = payload;
+    state.userFavoriteArticles = [...state.userFavoriteArticles, ...articles];
+    state.hasMore = hasMore;
+  },
+  resetUserFavoriteArticles(state) {
+    state.userFavoriteArticles = [];
+    state.hasMore = true;
+  },
   reset(state) {
     state.articles = [];
     state.hasMore = true;
@@ -60,8 +70,18 @@ const actions = {
       commit("setArticle", article[0]);
     } catch (e) {}
   },
-  getUserFavoriteArticles: async ({ commit, state }, articleIds) => {
+  getUserFavoriteArticles: async ({ commit, state }, params) => {
     try {
+      commit("setLoading", true);
+      const { articles, articleSize } =
+        await articleAPI.getUserFavoriteArticles(params.articleIds);
+      console.log(articles);
+      const payload = {
+        articles,
+        hasMore: articleSize >= params.limit,
+      };
+      commit("setUserFavoriteArticles", payload);
+      commit("setLoading", false);
     } catch (e) {}
   },
 };

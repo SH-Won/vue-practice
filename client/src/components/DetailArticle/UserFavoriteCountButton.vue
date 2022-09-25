@@ -1,5 +1,5 @@
 <template>
-    <button :class="getClassName" @click="handleFavorite"> 좋아요 {{count}}</button>
+    <button :class="getClassName" @click="handleFavorite($event)"> 좋아요 {{count}}</button>
 </template>
 
 <script>
@@ -49,11 +49,12 @@ export default {
 
     },
     methods: {
-        async handleFavorite() {
+        async handleFavorite(e) {
             if (!this.user._id) {
                 alert('로그인이 필요해요');
                 return;
             }
+            e.stopPropagation();
             const diffCount = this.isClicked ? -1 : 1;
             const params = {
                 userId: this.user._id,
@@ -81,6 +82,7 @@ export default {
     border: .5px solid #797777;
     transition: background .5s;
     cursor: pointer;
+    z-index: 100;
 
 }
 
