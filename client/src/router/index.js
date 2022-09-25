@@ -47,6 +47,17 @@ const routes = [
     component: () => import("../views/LoginView.vue"),
   },
   {
+    path: "/user/:userId",
+    name: "userpage",
+    component: () =>
+      import("../hoc/TestAuth").then(async ({ default: Auth }) => {
+        const Page = await import("../views/UserView").then(
+          ({ default: Page }) => Page
+        );
+        return Auth(Page, true);
+      }),
+  },
+  {
     path: "/edit",
     name: "edit",
     component: () =>
@@ -56,7 +67,6 @@ const routes = [
         );
         return Auth(Page, true);
       }),
-    props: true,
   },
   {
     path: "/loading",

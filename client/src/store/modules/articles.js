@@ -60,6 +60,10 @@ const actions = {
       commit("setArticle", article[0]);
     } catch (e) {}
   },
+  getUserFavoriteArticles: async ({ commit, state }, articleIds) => {
+    try {
+    } catch (e) {}
+  },
 };
 
 export default {

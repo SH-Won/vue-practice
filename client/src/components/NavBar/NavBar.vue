@@ -3,10 +3,10 @@
         <span class="nav__logo">
             <router-link to="/">{{navTitle}}</router-link>
         </span>
-        <template v-if="!isAuth">
-            <div class="nav__toggle">
+        <template v-if="!user.isAuth">
+            <div class="nav__toggle" @click="handleToggle">
                 <UserSvg :width="20" :height="20" />
-                <div class="nav__toggle-list">
+                <div :class="getToggleClassName">
                     <StyledButton name="로그인" :onClick="() => routeChange('/login')" />
                     <StyledButton name="회원가입" :onClick="() => routeChange('/register')" />
                 </div>
@@ -14,9 +14,10 @@
 
         </template>
         <template v-else>
-            <div class="nav__toggle">
+            <div class="nav__toggle" @click="handleToggle">
                 <UserSvg :width="20" :height="20" />
-                <div class="nav__toggle-list">
+                <div :class="getToggleClassName">
+                    <StyledButton name="마이페이지" :onClick="() => this.$router.push(`/user/${user._id}`)" />
                     <StyledButton name="글쓰기" :onClick="() => this.$router.push('/edit')" />
                     <StyledButton name="로그아웃" :onClick="logoutUser" />
                 </div>
@@ -44,8 +45,12 @@ export default {
         }
     },
     computed: {
+        getToggleClassName() {
+            return this.isOpen ? 'nav__toggle-list act' : 'nav__toggle-list';
+
+        },
         ...mapState('user', {
-            isAuth: state => state.user.isAuth,
+            user: state => state.user,
         })
 
     },
@@ -55,6 +60,7 @@ export default {
         },
         handleToggle() {
             this.isOpen = !this.isOpen;
+            console.log('click')
         },
         ...mapActions('user', ['logoutUser']),
     },
@@ -99,9 +105,8 @@ export default {
     top: 30px;
     right: 0;
     width: 100px;
-    /* max-height: 0; */
-    /* height:100%; */
-    max-height: 200px;
+    /* max-height: 200px; */
+    max-height: 0px;
     background-color: #fff;
     outline: none;
     border-radius: 8px;
@@ -109,22 +114,28 @@ export default {
     flex-direction: column;
     z-index: 10;
     overflow: hidden;
-    transform: scale(0);
+    /* transform: scale(0); */
     /* transition: max-height .5s; */
-    transition: transform .5s;
-}
-
-.nav__toggle:hover>.nav__toggle-list {
-    max-height: 100px;
-    transform: scale(1);
-}
-
-.nav__toggle-list:hover {
-    /* max-height: 100px; */
-    transform: scale(1);
+    transition: max-height .5s;
 }
 
 .nav__toggle-list.act {
-    max-height: 100px;
+    /* transform : scale(1); */
+    max-height: 200px;
 }
+
+/* .nav__toggle:active>.nav__toggle-list {
+    max-height: 100px;
+    height:100%;
+    transform: scale(1);
+} */
+
+/* .nav__toggle-list:hover {
+    max-height: 100px;
+    transform: scale(1);
+} */
+
+/* .nav__toggle-list.act {
+    max-height: 100px;
+} */
 </style>
