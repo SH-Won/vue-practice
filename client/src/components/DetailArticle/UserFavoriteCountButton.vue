@@ -3,46 +3,31 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { updateFavorite } from '../../services/user';
 export default {
 
     props: {
-        initialCount: {
-            type: Number,
-            default: 0,
-        },
         article: {
             type: Object,
-            default() {
-                return {
-
-                }
-            }
-        },
-        user: {
-            type: Object,
-            default() {
-                return {
-                    _id: null,
-                    isAuth: false,
-                }
-            }
         }
+
     },
+
     data() {
         return {
-            count: this.initialCount,
-            isClicked: this.user.isAuth ? this.user.favorite.includes(this.article._id) : false,
+            count: this.article.favoriteCount,
+            isClicked: null,
         }
     },
     computed: {
-        getAsyncData() {
-            this.count = this.initialCount;
-            return {
-                initialCount: this.count,
-                article: this.article,
-            }
-        },
+        ...mapState('user', {
+            user: state => state.user,
+        }),
+        // ...mapState('article',{
+        //    article : state => state.article, 
+        // }),
+
         getClassName() {
             return this.isClicked ? 'detail-article__favoriteBtn act' : 'detail-article__favoriteBtn'
         }
@@ -68,6 +53,10 @@ export default {
             }
         },
     },
+    created() {
+        this.isClicked = this.user.isAuth ? this.user.favorite.includes(this.article._id) : false;
+        // this.count = this.article.favoriteCount;
+    }
 }
 </script>
 

@@ -6,8 +6,7 @@
                 <div class="list__wrapper">
                     <SingleArticle v-for="(article,index) in userFavoriteArticles" :key="article._id + index"
                         :ref="index === userFavoriteArticles.length -1  && ob.lastRef" :article="article">
-                        <UserFavoriteCountButton :initialCount="article.favoriteCount" :article="article"
-                            :user="user" />
+                        <UserFavoriteCountButton :article="article" />
                     </SingleArticle>
                 </div>
             </template>
@@ -62,18 +61,18 @@ export default {
     async created() {
 
         this.pageLoading = true;
-        if (this.userFavoriteArticles.length) {
-            this.skip = this.userFavoriteArticles.length;
-        }
-        else {
-            await this.loadFavoriteArticle();
-        }
-
+        // if (this.userFavoriteArticles.length) {
+        //     this.skip = this.userFavoriteArticles.length;
+        // }
+        // else {
+        //     await this.loadFavoriteArticle();
+        // }
+        await this.loadFavoriteArticle();
         this.pageLoading = false;
     },
-    // destroyed(){
-    //     this.resetUserFavoriteArticles();
-    // },
+    destroyed() {
+        this.resetUserFavoriteArticles();
+    },
     components: { Observer, SingleArticle, UserFavoriteCountButton, PageLoading, PageLoading }
 }
 </script>

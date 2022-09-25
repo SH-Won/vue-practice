@@ -70,6 +70,20 @@ const actions = {
       commit("setArticle", article[0]);
     } catch (e) {}
   },
+  deleteArticle: async ({ commit, state }) => {
+    try {
+      const confirm = window.confirm("정말 삭제 하시겠어요?");
+      if (!confirm) return;
+      const params = {
+        _id: state.article._id,
+        imageIds: state.article.imageIds,
+      };
+      const response = await articleAPI.deleteArticle(params);
+      if (response.success) {
+        alert("성공적으로 삭제 했습니다");
+      }
+    } catch (e) {}
+  },
   getUserFavoriteArticles: async ({ commit, state }, params) => {
     try {
       commit("setLoading", true);

@@ -5,7 +5,7 @@
                 <h1>{{article.title}}</h1>
                 <time>{{calcTime}}</time>
             </div>
-            <UserFavoriteCountButton :initialCount="article.favoriteCount" :user="getUserState" :article="article" />
+            <UserFavoriteCountButton :article="article" />
             <StyledButton v-if="getIsUserArticle" name="수정" :styles="buttonStyle" :onClick="handleEditArticle" />
             <StyledButton v-if="getIsUserArticle" name="삭제" :styles="buttonStyle" :onClick="handleDeleteArticle" />
             <div class="ql-content" v-html="article.data">
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { deleteArticle, getDetailArticle } from '@/services/article';
 import StyledButton from '@/components/Button.vue';
 import UserFavoriteCountButton from '@/components/DetailArticle/UserFavoriteCountButton.vue';
 import PageLoading from '@/components/Loading/PageLoading.vue';
@@ -55,29 +54,16 @@ const DetailArticleView = {
     },
     methods: {
         ...mapMutations('editArticle', ['setEditInfo']),
-        ...mapActions('articles', ['getDetailArticle']),
+        ...mapActions('articles', ['getDetailArticle', 'deleteArticle']),
 
         handleEditArticle() {
             this.setEditInfo(true);
             this.$router.push('/edit');
         },
-
         async handleDeleteArticle() {
-            const confirm = window.confirm('정말 삭제 하시겠어요?');
-            if (!confirm) return;
-            const params = {
-                _id: this.article._id,
-                imageIds: this.article.imageIds,
-            }
-            const response = await deleteArticle(params);
-            if (response.success) {
-                alert('성공적으로 삭제 했습니다');
-                this.$router.push('/');
-            }
-
-        },
-
-
+            await this.deleteArticle();
+            this.$router.push('/');
+        }
 
     },
 
