@@ -7,6 +7,7 @@ import LazyImageLoad from "@/utils/LazyImageLoad";
 Vue.config.productionTip = false;
 Vue.directive("lazyload", LazyImageLoad);
 
+// main 시작점
 new Vue({
   router,
   store,
