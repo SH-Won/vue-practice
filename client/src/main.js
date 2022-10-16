@@ -9,6 +9,7 @@ Vue.directive("lazyload", LazyImageLoad);
 
 // main 시작점
 // git pull request test
+// git pull request test 2
 new Vue({
   router,
   store,
