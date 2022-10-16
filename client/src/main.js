@@ -8,6 +8,7 @@ Vue.config.productionTip = false;
 Vue.directive("lazyload", LazyImageLoad);
 
 // main 시작점
+// git pull request test
 new Vue({
   router,
   store,
