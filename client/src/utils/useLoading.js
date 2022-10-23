@@ -22,3 +22,20 @@ export const useLoading = () => {
     }
 
 }
+
+
+export const useLoading2 = () => {
+    
+    const loadingStart = () => {
+        loading.value = true;
+    }
+    const loadingDone = () => {
+        loading.value = false;
+    }
+
+    return {
+        loading,
+        loadingStart,
+        loadingDone,
+    }
+}
