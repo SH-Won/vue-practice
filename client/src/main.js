@@ -29,6 +29,14 @@ const hotfix3 = {
   name : 'hotfix/#6_AddToken221023_master_v1',
   time : '06:29',
 }
+const hotfix4= {
+  name : 'hotfix/#7_AddToken221023_master',
+  time : '06:28'
+}
+const hotfix5 = {
+  name : 'hotfix/#7_AddToken221023_master_v1',
+  time : '06:29',
+}
 
 new Vue({
   router,
